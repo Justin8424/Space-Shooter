@@ -46,6 +46,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioSource _audiosource;
 
+    [SerializeField]
+    private int _shieldStrength = 3;
+    [SerializeField]
+    private int _shieldHealth;
+
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
@@ -149,13 +154,31 @@ public class Player : MonoBehaviour
     public void Damage()
     {
         if (_isSheildsActive == true)
-        { 
-            _isSheildsActive = false;
-            _shieldVisualizer.SetActive(false);
-            return;
+        {
+            switch (_shieldHealth)
+            {
+                case 1:
+                    _shieldHealth--;
+                    _isSheildsActive = false;
+                    _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.white;
+                    _shieldVisualizer.SetActive(false);
+                    break;
+                case 2:
+                    _shieldHealth--;
+                    _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.red;
+                    break;
+                case 3:
+                    _shieldHealth--;
+                    _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.yellow;
+                    break;
+
+            }
+        } 
+        else if (_isSheildsActive == false)
+        {
+            _lives--;
         }
 
-        _lives--;
 
         //if lives is 2
         //enable right engine
@@ -211,6 +234,7 @@ public class Player : MonoBehaviour
     public void ShieldsActive()
     {
         _isSheildsActive = true;
+        _shieldHealth = _shieldStrength;
         _shieldVisualizer.SetActive(true);
     }
 

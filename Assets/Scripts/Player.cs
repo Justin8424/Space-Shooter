@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _fireRate = 0.5f;
     private float _canFire = -1f;
+    private int _ammoCount = 15;
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
@@ -43,6 +44,8 @@ public class Player : MonoBehaviour
     //variable to store the audio clip
     [SerializeField]
     private AudioClip _laserSoundClip;
+    [SerializeField]
+    private AudioClip _noAmmo;
     [SerializeField]
     private AudioSource _audiosource;
 
@@ -87,6 +90,7 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
+        Ammo();
     }
 
     void CalculateMovement()
@@ -138,17 +142,28 @@ public class Player : MonoBehaviour
     {
         _canFire = Time.time + _fireRate;
 
-        if (_isTripleShotActive == true)
+        if (_ammoCount > 0)
         {
-            Instantiate(_tripleShotPrefab, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+            if (_isTripleShotActive == true)
+            {
+                Instantiate(_tripleShotPrefab, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+                _ammoCount--;
+            }
+            else
+            {
+                Instantiate(_laserPrefab, new Vector3(transform.position.x, transform.position.y + 1.05f, 0), Quaternion.identity);
+                _ammoCount--;
+            }
+            //may have to reassign laser sound effect after adding ammo refill powerup
+            _audiosource.Play();
         }
-        else
+        else if (_ammoCount <= 0)
         {
-            Instantiate(_laserPrefab, new Vector3(transform.position.x, transform.position.y + 1.05f, 0), Quaternion.identity);
+            _ammoCount = 0;
+            _audiosource.clip = _noAmmo;
+            _audiosource.Play();
         }
 
-        //play the laser audio clip
-        _audiosource.Play();
     }
 
     public void Damage()
@@ -235,6 +250,7 @@ public class Player : MonoBehaviour
     {
         _isSheildsActive = true;
         _shieldHealth = _shieldStrength;
+        _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.white;
         _shieldVisualizer.SetActive(true);
     }
 
@@ -245,6 +261,11 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
+    }
+
+    public void Ammo()
+    {
+        _uiManager.UpdateAmmoCount(_ammoCount);
     }
 
 }

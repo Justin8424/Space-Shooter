@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
     private Image _LivesImg;
     [SerializeField]
     private Sprite[] _liveSprites;
+    [SerializeField]
+    private Text _ammoCountText;
 
     private GameManager _gameManager;
    
@@ -45,6 +47,11 @@ public class UIManager : MonoBehaviour
         {
             GameOverSequence();
         }
+    }
+
+    public void UpdateAmmoCount(int ammo)
+    {
+        _ammoCountText.text = "x " + ammo;
     }
 
     void GameOverSequence()

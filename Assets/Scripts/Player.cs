@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _boostSpeed = 5.25f;
     [SerializeField]
-    private float _speedMultiplier = 2f;
+    private float _speedMultiplier = 3f;
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.5f;
     private float _canFire = -1f;
     private int _ammoCount = 15;
+    [SerializeField]
+    private int _maximumAmmo = 15;
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
@@ -244,6 +246,11 @@ public class Player : MonoBehaviour
             _isSpeedupActive = false;
             _speed /= _speedMultiplier;
         }
+    }
+    public void AmmoPowerUp()
+    {
+        _ammoCount = _maximumAmmo;
+        _audiosource.clip = _laserSoundClip;
     }
 
     public void ShieldsActive()

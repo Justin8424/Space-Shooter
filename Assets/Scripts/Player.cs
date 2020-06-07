@@ -196,11 +196,6 @@ public class Player : MonoBehaviour
             _lives--;
         }
 
-
-        //if lives is 2
-        //enable right engine
-        //else if lives is 1 
-        //enable left engine
         if (_lives == 2)
         {
             _rightEngine.SetActive(true);
@@ -253,6 +248,21 @@ public class Player : MonoBehaviour
         _audiosource.clip = _laserSoundClip;
     }
 
+    public void ExtraLifePickup()
+    {
+        _lives++;
+        if (_lives >= 3)
+        {
+            _lives = 3;
+            _rightEngine.SetActive(false);
+        }
+        else if (_lives == 2)
+        {
+            _leftEngine.SetActive(false);
+        }
+        _uiManager.UpdateLives(_lives);
+    }
+
     public void ShieldsActive()
     {
         _isSheildsActive = true;
@@ -260,9 +270,6 @@ public class Player : MonoBehaviour
         _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.white;
         _shieldVisualizer.SetActive(true);
     }
-
-    //method to add 10 to score!
-    //communicate with the UI to update the score
 
     public void AddScore(int points)
     {

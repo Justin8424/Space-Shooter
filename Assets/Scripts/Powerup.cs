@@ -51,6 +51,9 @@ public class Powerup : MonoBehaviour
                     case 4:
                         player.ExtraLifePickup();
                         break;
+                    case 5:
+                        player.ThreeWayShotActive();
+                        break;
                     default:
                         Debug.Log("Default Value");
                         break;

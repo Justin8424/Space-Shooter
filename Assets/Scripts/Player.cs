@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleShotPrefab;
     [SerializeField]
+    private GameObject _threeWayShotPrefab;
+    [SerializeField]
     private float _fireRate = 0.5f;
     private float _canFire = -1f;
     private int _ammoCount = 15;
@@ -30,7 +32,11 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     private bool _isSpeedupActive = false;
     private bool _isSheildsActive = false;
+    private bool _isThreeWayShotActive = false;
 
+    [SerializeField]
+    private int _maxThreeWayShots = 5;
+    private int _threeWayShotsLeft;
     [SerializeField]
     private GameObject _shieldVisualizer;
     [SerializeField]
@@ -148,8 +154,25 @@ public class Player : MonoBehaviour
         {
             if (_isTripleShotActive == true)
             {
+                _isThreeWayShotActive = false;
+                _threeWayShotsLeft = 0;
                 Instantiate(_tripleShotPrefab, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
                 _ammoCount--;
+            }
+            else if(_isThreeWayShotActive == true)
+            {
+                if (_threeWayShotsLeft > 0)
+                {
+                    _isTripleShotActive = false;
+                    _threeWayShotsLeft--;
+                    Instantiate(_threeWayShotPrefab, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+                    _ammoCount--;
+                } 
+                else if(_threeWayShotsLeft <= 0)
+                {
+                    _isThreeWayShotActive = false;
+                    return;
+                }
             }
             else
             {
@@ -224,6 +247,12 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5.0f);
         _isTripleShotActive = false;
+    }
+
+    public void ThreeWayShotActive()
+    {
+        _isThreeWayShotActive = true;
+        _threeWayShotsLeft = _maxThreeWayShots;
     }
 
     public void SpeedupActive()

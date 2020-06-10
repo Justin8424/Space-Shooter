@@ -103,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 1867800069801655205, guid: 74acd072ee7f6f9419bf040153d1f960,
         type: 3}
       propertyPath: m_TagString
-      value: Laser_L
+      value: Laser
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74acd072ee7f6f9419bf040153d1f960, type: 3}
@@ -183,7 +183,7 @@ PrefabInstance:
     - target: {fileID: 1867800069801655205, guid: 74acd072ee7f6f9419bf040153d1f960,
         type: 3}
       propertyPath: m_TagString
-      value: Laser_R
+      value: Laser
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74acd072ee7f6f9419bf040153d1f960, type: 3}

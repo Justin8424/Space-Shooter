@@ -11,6 +11,9 @@ public class Player : MonoBehaviour
     private bool _isBoosting;
     [SerializeField]
     private float _boostSpeed = 5.25f;
+    private float _currentBoost;
+    private float _boostTotal = 10f;
+    private float _boostDelta = 2f;
     [SerializeField]
     private float _speedMultiplier = 3f;
     [SerializeField]
@@ -62,6 +65,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _shieldHealth;
 
+    CameraShake _cameraShake;
+    [SerializeField]
+    private float _shakeDuration = .10f;
+    [SerializeField]
+    private float _shakeMagnitude = .35f;
+
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
@@ -69,6 +78,7 @@ public class Player : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audiosource = GetComponent<AudioSource>();
         _baseSpeed = _speed;
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
 
         if(_spawnManager == null)
         {
@@ -111,6 +121,12 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             _isBoosting = true;
+            _currentBoost = _boostTotal - _boostDelta * Time.deltaTime;
+            if (_currentBoost < 0)
+            {
+                _currentBoost = 0;
+                _isBoosting = false;
+            } 
         }
         else
         {
@@ -122,6 +138,11 @@ public class Player : MonoBehaviour
         }
         else if (_isBoosting == false)
         {
+            _currentBoost += _boostDelta * Time.deltaTime;
+            if (_currentBoost > _boostTotal)
+            {
+                _currentBoost = _boostTotal; 
+            }
             _speed = _baseSpeed;
         }
 
@@ -198,16 +219,19 @@ public class Player : MonoBehaviour
             switch (_shieldHealth)
             {
                 case 1:
+                    StartCoroutine(_cameraShake.Shake(_shakeDuration, (_shakeMagnitude / 2)));
                     _shieldHealth--;
                     _isSheildsActive = false;
                     _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.white;
                     _shieldVisualizer.SetActive(false);
                     break;
                 case 2:
+                    StartCoroutine(_cameraShake.Shake(_shakeDuration, (_shakeMagnitude / 2)));
                     _shieldHealth--;
                     _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.red;
                     break;
                 case 3:
+                    StartCoroutine(_cameraShake.Shake(_shakeDuration, (_shakeMagnitude / 2)));
                     _shieldHealth--;
                     _shieldVisualizer.GetComponent<SpriteRenderer>().color = Color.yellow;
                     break;
@@ -216,6 +240,7 @@ public class Player : MonoBehaviour
         } 
         else if (_isSheildsActive == false)
         {
+            StartCoroutine(_cameraShake.Shake(_shakeDuration, _shakeMagnitude));
             _lives--;
         }
 
@@ -258,7 +283,7 @@ public class Player : MonoBehaviour
     public void SpeedupActive()
     {
         _isSpeedupActive = true;
-        _speed *= _speedMultiplier;
+        _baseSpeed *= _speedMultiplier;
         StartCoroutine(SpeedupPowerDown());
     }
 
@@ -268,7 +293,7 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(5.0f);
             _isSpeedupActive = false;
-            _speed /= _speedMultiplier;
+            _baseSpeed /= _speedMultiplier;
         }
     }
     public void AmmoPowerUp()

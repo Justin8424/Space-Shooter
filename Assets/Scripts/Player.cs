@@ -6,14 +6,17 @@ public class Player : MonoBehaviour
 {
 
     [SerializeField]
-    private float _speed = 3.5f;
-    private float _baseSpeed;
+    private float _speed;
+    private float _baseSpeed = 3.5f;
     private bool _isBoosting;
     [SerializeField]
     private float _boostSpeed = 5.25f;
-    private float _currentBoost;
-    private float _boostTotal = 10f;
-    private float _boostDelta = 2f;
+    private float _currentBoostDelayTime;
+    private float _currentBoostTime;
+    [SerializeField]
+    private float _boostTime = 3f;
+    [SerializeField]
+    private float _boostDelayTime = 5f;
     [SerializeField]
     private float _speedMultiplier = 3f;
     [SerializeField]
@@ -77,10 +80,12 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audiosource = GetComponent<AudioSource>();
-        _baseSpeed = _speed;
+         _speed = _baseSpeed;
         _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+        _currentBoostTime = 0f;
+        _currentBoostDelayTime = 0f;
 
-        if(_spawnManager == null)
+        if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL.");
         }
@@ -118,31 +123,31 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && !_isBoosting && Time.time > _currentBoostDelayTime)
         {
+            _uiManager.UpdateBoostIndicator(Color.green);
+            _currentBoostTime = Time.time + _boostTime;
             _isBoosting = true;
-            _currentBoost = _boostTotal - _boostDelta * Time.deltaTime;
-            if (_currentBoost < 0)
-            {
-                _currentBoost = 0;
-                _isBoosting = false;
-            } 
         }
-        else
+        
+        if ((Time.time > _currentBoostTime) && _isBoosting)
         {
+            _uiManager.UpdateBoostIndicator(Color.red);
             _isBoosting = false;
+            _currentBoostDelayTime = Time.time + _boostDelayTime;
         }
-        if(_isBoosting == true)
+
+        if (Time.time > _currentBoostDelayTime)
+        {
+            _uiManager.UpdateBoostIndicator(Color.green);
+        }
+
+        if (_isBoosting == true)
         {
             _speed = _boostSpeed;
         }
         else if (_isBoosting == false)
         {
-            _currentBoost += _boostDelta * Time.deltaTime;
-            if (_currentBoost > _boostTotal)
-            {
-                _currentBoost = _boostTotal; 
-            }
             _speed = _baseSpeed;
         }
 
@@ -166,6 +171,7 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(11, transform.position.y, 0);
         }
     }
+
 
     void FireLaser()
     {

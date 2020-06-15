@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     private Text _ammoCountText;
     [SerializeField]
     private Image _boostIndicatorImg;
+    [SerializeField]
+    private Text _waveCountText;
 
     private GameManager _gameManager;
    
@@ -59,6 +61,20 @@ public class UIManager : MonoBehaviour
     public void UpdateBoostIndicator(Color c)
     {
         _boostIndicatorImg.color = c;
+    }
+
+    public void UpdateWaveDisplay(int wave, float intermissionDuration)
+    {
+        _waveCountText.text = "Prepare for Wave: " + wave;
+        _waveCountText.gameObject.SetActive(true);
+        StartCoroutine(WaveDisplayTime(intermissionDuration));
+
+    }
+
+    IEnumerator WaveDisplayTime(float displayTime)
+    {
+        yield return new WaitForSeconds(displayTime - 2f);
+        _waveCountText.gameObject.SetActive(false);
     }
 
     void GameOverSequence()

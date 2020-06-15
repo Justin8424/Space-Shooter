@@ -10,13 +10,23 @@ public class SpawnManager : MonoBehaviour
     private GameObject _enemyContainer;
     [SerializeField]
     private GameObject []_powerups;
+    [SerializeField]
+    private int _enemiesThisWave = 6;
+    private int _enemiesSpawned;
+    [SerializeField]
+    private int _enemiesToAdd = 2;
+    [SerializeField]
+    private float _waveTimer = 7f;
+    private int _waveCount = 1;
 
     private bool _stopSpawning = false;
+
+    UIManager _uIManager;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     public void StartSpawning()
@@ -32,6 +42,15 @@ public class SpawnManager : MonoBehaviour
         { 
             GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-8f, 8f), 7f, 0), Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
+            _enemiesSpawned++;
+            if (_enemiesSpawned == _enemiesThisWave)
+            {
+                _waveCount++;
+                _enemiesThisWave += _enemiesToAdd;
+                _uIManager.UpdateWaveDisplay(_waveCount, _waveTimer);
+                yield return new WaitForSeconds(_waveTimer);
+                _enemiesSpawned = 0;
+            }
             yield return new WaitForSeconds(5.0f);
         }
     }

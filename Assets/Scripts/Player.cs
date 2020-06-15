@@ -339,7 +339,7 @@ public class Player : MonoBehaviour
 
     public void Ammo()
     {
-        _uiManager.UpdateAmmoCount(_ammoCount);
+        _uiManager.UpdateAmmoCount(_ammoCount, _maximumAmmo);
     }
 
 }

@@ -51,9 +51,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateAmmoCount(int ammo)
+    public void UpdateAmmoCount(int ammo, int maxAmmo)
     {
-        _ammoCountText.text = "x " + ammo;
+        _ammoCountText.text = ammo + " /" + maxAmmo;
     }
 
     public void UpdateBoostIndicator(Color c)

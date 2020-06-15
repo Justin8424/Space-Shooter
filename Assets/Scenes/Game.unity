@@ -506,11 +506,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9d905bb7b1710448bb4ef2b0a0143b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3.5
+  _speed: 4
   _boostSpeed: 7
   _boostTime: 3
   _boostDelayTime: 5
   _speedMultiplier: 2
+  _speedDownMultiplier: 0.4
   _laserPrefab: {fileID: 1867800069801655205, guid: 74acd072ee7f6f9419bf040153d1f960,
     type: 3}
   _tripleShotPrefab: {fileID: 1419371581200028382, guid: 5c94753c03a0fd048ba8821841999d9e,
@@ -1733,6 +1734,7 @@ MonoBehaviour:
   - {fileID: 6765632932852584712, guid: 76a41dfa57e368845acc143ddf7d73c0, type: 3}
   - {fileID: 1931348230968337014, guid: 1cbda933ec4f77244a03515e4a9934a5, type: 3}
   - {fileID: 8806624579213230980, guid: 16bf4da1f18f7df42be744cf367ce2ef, type: 3}
+  - {fileID: 7383984546327351147, guid: 4e749490bf14e4e428ffc8037392bafc, type: 3}
 --- !u!4 &1425799683
 Transform:
   m_ObjectHideFlags: 0

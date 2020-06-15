@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speedMultiplier = 3f;
     [SerializeField]
+    private float _speedDownMultiplier = .4f;
+    [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShotPrefab;
@@ -39,6 +41,7 @@ public class Player : MonoBehaviour
     private bool _isSpeedupActive = false;
     private bool _isSheildsActive = false;
     private bool _isThreeWayShotActive = false;
+    private bool _isEngineSludgeActive = false;
 
     [SerializeField]
     private int _maxThreeWayShots = 5;
@@ -302,6 +305,26 @@ public class Player : MonoBehaviour
             _baseSpeed /= _speedMultiplier;
         }
     }
+
+    public void EngineSludgeActive()
+    {
+        _isEngineSludgeActive = true;
+        _baseSpeed *= _speedDownMultiplier;
+        _boostSpeed *= _speedDownMultiplier;
+        StartCoroutine(EngineSludgePowerDown());
+    }
+
+    IEnumerator EngineSludgePowerDown()
+    {
+        if (_isEngineSludgeActive == true)
+        {
+            yield return new WaitForSeconds(4.0f);
+            _isEngineSludgeActive = false;
+            _baseSpeed /= _speedDownMultiplier;
+            _boostSpeed /= _speedDownMultiplier;
+        }
+    }
+
     public void AmmoPowerUp()
     {
         _ammoCount = _maximumAmmo;

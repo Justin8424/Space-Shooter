@@ -77,6 +77,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _shakeMagnitude = .35f;
 
+    private GameObject[] _pickups;
+    [SerializeField]
+    private float _pullSpeed = 2;
+
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
@@ -117,6 +121,19 @@ public class Player : MonoBehaviour
             FireLaser();
         }
         Ammo();
+        PullPickups();
+    }
+
+    void PullPickups()
+    {
+        if (Input.GetKey(KeyCode.C))
+        {
+            _pickups = GameObject.FindGameObjectsWithTag("Pickup");
+            foreach(var pickup in _pickups)
+            {
+                pickup.transform.position = Vector3.MoveTowards(pickup.transform.position, this.transform.position, (_pullSpeed * Time.deltaTime));
+            }
+        }
     }
 
     void CalculateMovement()

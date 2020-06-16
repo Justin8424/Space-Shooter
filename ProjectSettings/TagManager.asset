@@ -9,6 +9,7 @@ TagManager:
   - Enemy Laser
   - Laser_L
   - Laser_R
+  - Pickup
   layers:
   - Default
   - TransparentFX

@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemyPrefab;
+    private GameObject []_enemyPrefabs;
     [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
@@ -39,8 +39,9 @@ public class SpawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         while (_stopSpawning == false)
-        { 
-            GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-8f, 8f), 7f, 0), Quaternion.identity);
+        {
+            int randomEnemy = Random.Range(0, _enemyPrefabs.Length);
+            GameObject newEnemy = Instantiate(_enemyPrefabs[randomEnemy], new Vector3(Random.Range(-8f, 8f), 7f, 0), Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
             _enemiesSpawned++;
             if (_enemiesSpawned == _enemiesThisWave)

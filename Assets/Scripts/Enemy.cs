@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
     private float _canFire = -1; 
     [SerializeField]
     private GameObject _enemyLaserPrefab;
+    [SerializeField]
+    private float _chaseRange = 5;
 
     private void Start()
     {
@@ -56,7 +58,8 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        CalculateMovement(); 
+        CalculateMovement();
+        ChasePlayer();
         if(Time.time > _canFire)
         {
             _fireRate = Random.Range(3f, 7f);
@@ -67,6 +70,21 @@ public class Enemy : MonoBehaviour
             for (int i = 0; i<lasers.Length; i++)
             {
                 lasers[i].AssignEnemyLaser();
+            }
+        }
+    }
+
+    void ChasePlayer()
+    {
+        if (this.gameObject.name == "Kamikaze(Clone)")
+        {
+            float dist = Vector3.Distance(_player.transform.position, transform.position);
+            if (dist >= _chaseRange)
+            {
+                transform.position = Vector2.MoveTowards
+                    (
+                    transform.position, new Vector2(_player.transform.position.x, transform.position.y), _speed * Time.deltaTime
+                    );
             }
         }
     }

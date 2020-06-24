@@ -59,6 +59,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+        ShootPickup();
         ChasePlayer();
         if(Time.time > _canFire)
         {
@@ -96,6 +97,23 @@ public class Enemy : MonoBehaviour
         if (transform.position.y < -5.5f)
         {
             Destroy(this.gameObject);
+        }
+    }
+
+    void ShootPickup()
+    {
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.down) * 6f, Color.green);
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.down), 6f);
+
+        if (hit.collider !=null && hit.collider.tag == "Pickup")
+        {
+            Debug.Log("Shooting Pickup");
+            _fireRate = -1;
+        }
+        else
+        {
+            ;
         }
     }
 

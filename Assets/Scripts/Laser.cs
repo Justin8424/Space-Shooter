@@ -65,5 +65,14 @@ public class Laser : MonoBehaviour
                 player.Damage();
             }
         }
+
+        if (other.tag == "Pickup" && _isEnemyLaser == true)
+        {
+            if (other != null)
+            {
+                Debug.Log("Pickup shot");
+                Destroy(other.gameObject);
+            }
+        }
     }
 }

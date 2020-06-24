@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 7383984546327351144}
   m_Layer: 0
   m_Name: Engine_Sludge_Pickup
-  m_TagString: Pickup
+  m_TagString: Negative Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

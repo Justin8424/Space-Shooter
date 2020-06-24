@@ -10,6 +10,7 @@ TagManager:
   - Laser_L
   - Laser_R
   - Pickup
+  - Negative Pickup
   layers:
   - Default
   - TransparentFX

@@ -24,6 +24,11 @@ public class Enemy : MonoBehaviour
     private GameObject _enemyLaserPrefab;
     [SerializeField]
     private float _chaseRange = 5;
+    [SerializeField]
+    private int _shieldhealth = 1;
+    private bool _shieldsActive = false;
+    [SerializeField]
+    private GameObject _shield;
 
     private void Start()
     {
@@ -53,7 +58,11 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("The Enemy Laser Prefab is NULL");
         }
-        
+
+        if (this.gameObject.name == "Shield_Enemy" || this.gameObject.name == "Shield_Enemy(clone)")
+        {
+            _shieldsActive = true;
+        }       
     }
 
     void Update()
@@ -138,18 +147,36 @@ public class Enemy : MonoBehaviour
 
         if (other.tag == "Laser")
         {
-            if(_player != null)
+            if (_shieldsActive == false)
             {
-                _player.AddScore(10);
-            }
-            Destroy(other.gameObject);
-            //trigger anim
-            _anim.SetTrigger("OnEnemyDeath");
-            _speed = 0;
-            _audioSource.Play();
+                if (_player != null)
+                {
+                    _player.AddScore(10);
+                }
+                Destroy(other.gameObject);
+                //trigger anim
+                _anim.SetTrigger("OnEnemyDeath");
+                _speed = 0;
+                _audioSource.Play();
 
-            Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject, 2.8f);
+                Destroy(GetComponent<Collider2D>());
+                Destroy(this.gameObject, 2.8f);
+            } else if (_shieldsActive == true)
+            {
+                Destroy(other.gameObject);
+                Damage();
+            }
+
+        }
+    }
+
+    void Damage()
+    {
+        _shieldhealth--;
+        if (_shieldhealth == 0)
+        {
+            _shield.SetActive(false);
+            _shieldsActive = false;
         }
     }
 }

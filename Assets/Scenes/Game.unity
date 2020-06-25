@@ -1807,6 +1807,7 @@ MonoBehaviour:
   _enemyPrefabs:
   - {fileID: 245708251387088526, guid: 9989d8e7e471ea845a7c13bd181147ce, type: 3}
   - {fileID: 1914702781024841906, guid: 9685d5c359d3b0d4b80c9c7e1fd20153, type: 3}
+  - {fileID: 6360612029450754716, guid: 0010736d72009154f979a9008f279955, type: 3}
   _enemyContainer: {fileID: 1828704452}
   _powerups:
   - {fileID: 8822331711024861176, guid: f59ec93216c03fa4987476cba3388e5d, type: 3}
@@ -1887,8 +1888,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -580378827
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 351f30ffb741fd643b82bde90a222699, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _fireRate = 3.0f;
     [SerializeField]
+    private float _bombDropRate = 1.5f;
+    [SerializeField]
     private float _canFire = -1; 
     [SerializeField]
     private GameObject _enemyLaserPrefab;
@@ -29,6 +31,9 @@ public class Enemy : MonoBehaviour
     private bool _shieldsActive = false;
     [SerializeField]
     private GameObject _shield;
+
+    [SerializeField]
+    private GameObject _minePrefab;
 
     private void Start()
     {
@@ -70,7 +75,7 @@ public class Enemy : MonoBehaviour
         CalculateMovement();
         ShootPickup();
         ChasePlayer();
-        if(Time.time > _canFire)
+        if(Time.time > _canFire && gameObject.tag != "Mine Layer" )
         {
             _fireRate = Random.Range(3f, 7f);
             _canFire = Time.time + _fireRate;
@@ -82,6 +87,13 @@ public class Enemy : MonoBehaviour
                 lasers[i].AssignEnemyLaser();
             }
         }
+        if (Time.time > _canFire && gameObject.tag == "Mine Layer")
+        {
+            _bombDropRate = Random.Range(1f, 5f);
+            _canFire = Time.time + _bombDropRate;
+            GameObject enemyMine = Instantiate(_minePrefab, transform.position, Quaternion.identity);
+        }
+
     }
 
     void ChasePlayer()

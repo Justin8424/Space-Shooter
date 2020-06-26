@@ -1808,6 +1808,7 @@ MonoBehaviour:
   - {fileID: 245708251387088526, guid: 9989d8e7e471ea845a7c13bd181147ce, type: 3}
   - {fileID: 1914702781024841906, guid: 9685d5c359d3b0d4b80c9c7e1fd20153, type: 3}
   - {fileID: 6360612029450754716, guid: 0010736d72009154f979a9008f279955, type: 3}
+  - {fileID: 899814505980666458, guid: 2b4842eeab9a7da4b92439df6474d677, type: 3}
   _enemyContainer: {fileID: 1828704452}
   _powerups:
   - {fileID: 8822331711024861176, guid: f59ec93216c03fa4987476cba3388e5d, type: 3}

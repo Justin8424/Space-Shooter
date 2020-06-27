@@ -31,12 +31,17 @@ public class Enemy : MonoBehaviour
     private bool _shieldsActive = false;
     [SerializeField]
     private GameObject _shield;
+    [SerializeField]
+    private float _slolamRange = 3;
 
     [SerializeField]
     private GameObject _minePrefab;
 
+    Vector3 _posOffSet = new Vector3();
+
     private void Start()
     {
+        _posOffSet = transform.position;
         _player = GameObject.Find("Player").GetComponent<Player>();
         _audioSource = GetComponent<AudioSource>();
 
@@ -113,7 +118,19 @@ public class Enemy : MonoBehaviour
 
     void CalculateMovement()
     {
+
+        if (gameObject.tag == "Mine Layer")
+        {
+           Vector3 tempPos = new Vector3();
+            /*tempPos = _posOffSet;
+            tempPos.x += Mathf.Cos(Time.time * _speed) * _slolamRange;
+            transform.position = tempPos;*/
+            transform.Translate(new Vector3(Mathf.Cos(Time.time * (_speed)) * _slolamRange, -.1f, 0));
+        }
+        else
+        {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        }
 
         if (transform.position.y < -5.5f)
         {

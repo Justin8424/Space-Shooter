@@ -69,7 +69,7 @@ public class Enemy : MonoBehaviour
             Debug.LogError("The Enemy Laser Prefab is NULL");
         }
 
-        if (this.gameObject.name == "Shield_Enemy" || this.gameObject.name == "Shield_Enemy(clone)")
+        if (this.gameObject.name == "Shield_Enemy" || this.gameObject.name == "Shield_Enemy(Clone)")
         {
             _shieldsActive = true;
         }       
@@ -168,6 +168,9 @@ public class Enemy : MonoBehaviour
             }
             //trigger anim
 
+            _shield = this.transform.Find("Shield").gameObject;
+            _shield.SetActive(false);
+
             _anim.SetTrigger("OnEnemyDeath");
             _speed = 0;
             _audioSource.Play();
@@ -204,6 +207,7 @@ public class Enemy : MonoBehaviour
         _shieldhealth--;
         if (_shieldhealth == 0)
         {
+            _shield = this.transform.Find("Shield").gameObject;
             _shield.SetActive(false);
             _shieldsActive = false;
         }
